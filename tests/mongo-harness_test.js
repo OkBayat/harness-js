@@ -12,12 +12,10 @@
 
 var path = require("path"),
 	assert = require("assert"),
-	harness = require("../harness"),
-	module = {
-		filename: "mongo-harness_test.js"
-	};
+	harness = require("harness"),
+	filename = "tests/mongo-harness_test.js";
 
-console.log("Welcome, we're testing " + path.basename(module.filename));
+console.log("Welcome, we're testing " + path.basename(filename));
 console.log("First tests will be completed with out calling RunIt()");
 console.log("\tDoing some pre-RunIt() tests of methods.");
 assert.ok(harness, "Should have a harness object");
@@ -37,8 +35,4 @@ harness.push({callback: function () {
 assert.strictEqual(harness.counts("tests"), 1, "Should have one test group defined now.");
 console.log("Pre-RunIt() tests, OK");
 console.log("\tNow you should see output from RunIt()");
-if (require.main === module) {
-    harness.RunIt(path.basename(module.filename), 10);
-} else {
-    exports.RunIt = harness.RunIt;
-}
+harness.RunIt(path.basename(filename), 10);

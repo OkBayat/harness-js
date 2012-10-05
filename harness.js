@@ -53,9 +53,11 @@ var Harness = function (global) {
 	var RunIt = function (module_name, test_delay) {
 		var int_id;
 	
+		// run, runs a test group. 
 		var run = function () {
 			var group_test = test_groups.shift();
-			if (group_test &&
+			
+			if (group_test  &&
 					typeof group_test.callback === "function" &&
 					typeof group_test.label === "string") {
 				console.log("\tStarting " + group_test.label + " ...");
@@ -94,6 +96,38 @@ var Harness = function (global) {
 			}
 		};
 		
+		// Use runSync() if setInterval() not available.
+		var runSync = function () {
+			var group_test = test_groups.shift();
+
+			while (group_test) {
+				if (group_test  &&
+						typeof group_test.callback === "function" &&
+						typeof group_test.label === "string") {
+					console.log("\tStarting " + group_test.label + " ...");
+					running_tests.push(group_test.label);
+					console.log("\t\t" + group_test.label + " called");
+					group_test.callback();
+				} else if (group_test === undefined) {
+					if (complete_called === false) {
+						throw "harness.completed() never called by test group(s).";
+					}
+					if (running_tests.join("") !== "") {
+						running_tests.forEach(function (item) {
+							if (item.trim() !== "") {
+								console.log("\t\t" + item +
+									" incomplete!");
+							}
+						});
+					}
+				} else {
+					throw module_name.trim() + " Failed!";
+				}
+				group_test = test_groups.shift();
+			}
+			console.log(module_name.trim() + " Success!");
+		};
+		
 		if (module_name === undefined) {
 			module_name = "Untitled module tests";
 		}
@@ -105,10 +139,7 @@ var Harness = function (global) {
 		try {
 			int_id = setInterval(run, test_delay);
 		} catch(err) {
-			console.log("setInterval() not available.");
-			while (test_groups.length > 0) {
-				run();
-			}
+			runSync();
 		}
 	};
 

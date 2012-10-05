@@ -1,7 +1,7 @@
 {
 	"name" : "harness",
-	"version" : "0.0.1",
-	"description" : "Yet another test organizers except that is work in NodeJS and Mongo 2.2's shell.",
+	"version" : "0.0.2",
+	"description" : "Yet another test organizer except this one works in NodeJS and Mongo 2.2's shell.",
 	"main" : "./harness.js",
 	"repository" : {
 		"type" : "git", 

@@ -1,0 +1,30 @@
+{
+	"name" : "harness",
+	"version" : "0.0.1",
+	"description" : "A small test framework that will work in NodeJS, MongoDB shell or web browser.",
+	"main" : "./harness.js",
+	"repository" : {
+		"type" : "git", 
+		"url" : "https://github.com/rsdoiel/harness-js.git"
+	},
+	"author" : {
+		"name" : "R. S. Doiel", 
+		"email" : "rsdoiel@gmail.com", 
+		"url" : "https://github.com/rsdoiel"
+	},
+	"maintainers" : [{
+		"name" : "R. S. Doiel", 
+		"url" : "https://github.com/rsdoiel"
+	}],
+	"engines" : {
+		"node" : ">= 0.8",
+		"npm" : ">= 1.1",
+		"mongo": ">= 2.2"
+	},
+	"scripts" : {
+		"test" : "node tests/harness_test.js"
+	},
+	"bugs": {
+		"url": "http://github.com/rsdoiel/harness-js/issues"
+   	}
+}

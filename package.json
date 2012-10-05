@@ -1,7 +1,7 @@
 {
 	"name" : "harness",
 	"version" : "0.0.1",
-	"description" : "A small test framework that will work in NodeJS, MongoDB shell or web browser.",
+	"description" : "Yet another test organizers except that is work in NodeJS and Mongo 2.2's shell.",
 	"main" : "./harness.js",
 	"repository" : {
 		"type" : "git", 

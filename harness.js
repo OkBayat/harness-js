@@ -36,6 +36,9 @@ var Harness = function (global) {
 		if (test.label === undefined) {
 			throw "missing test label.";
 		}
+		if (test.target === undefined) {
+			test.target = [];
+		}
 		test_groups.push(test);
 	};
 	
@@ -50,9 +53,20 @@ var Harness = function (global) {
 		return false;
 	};
 	
-	var RunIt = function (module_name, test_delay) {
+	var RunIt = function (module_name, test_delay, target) {
 		var int_id;
 	
+		if (target === undefined) {
+			// Guess what we're in
+			target = "unknown";
+			if (require !== undefined) {
+				target = "node@0.8.11";
+			} else if (require === undefined && load !== undefined) {
+				target = "mongo@2.2";
+			} else {
+				target = "browser";
+			}
+		}
 		// run, runs a test group. 
 		var run = function () {
 			var group_test = test_groups.shift();

@@ -77,7 +77,7 @@ var Harness = function (global) {
 				console.log("\tStarting " + group_test.label + " ...");
 				running_tests.push(group_test.label);
 				console.log("\t\t" + group_test.label + " called");
-				group_test.callback();
+				group_test.callback(group_test.label);
 			} else if (group_test === undefined) {
 				if (complete_called === false) {
 					if (clearInterval !== undefined) {

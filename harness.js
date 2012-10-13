@@ -98,7 +98,7 @@ var Harness = function (global) {
 						}
 					});
 				} else {
-					console.log(module_name.trim() + " Success!");
+					console.log(module_name + " Success!");
 				}
 				try {
 					clearInterval(int_id);
@@ -106,7 +106,7 @@ var Harness = function (global) {
 					console.log("clearInterval() not available");
 				}
 			} else {
-				throw module_name.trim() + " Failed!";
+				throw module_name + " Failed!";
 			}
 		};
 		
@@ -135,11 +135,11 @@ var Harness = function (global) {
 						});
 					}
 				} else {
-					throw module_name.trim() + " Failed!";
+					throw module_name + " Failed!";
 				}
 				group_test = test_groups.shift();
 			}
-			console.log(module_name.trim() + " Success!");
+			console.log(module_name + " Success!");
 		};
 		
 		if (module_name === undefined) {
@@ -149,7 +149,7 @@ var Harness = function (global) {
 			test_delay = 1000;
 		}
 	
-		console.log("Starting [" + module_name.trim() + "] ...");
+		console.log("Starting [" + module_name + "] ...");
 		try {
 			int_id = setInterval(run, test_delay);
 		} catch(err) {

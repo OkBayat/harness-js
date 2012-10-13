@@ -1,6 +1,6 @@
 {
 	"name" : "harness",
-	"version" : "0.0.3",
+	"version" : "0.0.4",
 	"description" : "Yet another test organizer except this one works in NodeJS and Mongo 2.2's shell.",
 	"main" : "./harness.js",
 	"repository" : {

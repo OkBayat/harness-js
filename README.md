@@ -2,7 +2,10 @@
 harness-js
 ==========
 
-Yet another test organizers except that is work in NodeJS, Mongo's shell.  Being able to run across these three environments with depending on things like RequireJS was a major reason to write this module. Hopefully it is helpful to others.
+Yet another test organizers except that is work in NodeJS, Mongo's shell and
+you modern web browser.  Being able to run across these three environments 
+without depending on libraries like RequireJS was a major reason I wrote this
+module. Hopefully it is helpful to others.
 
 # Overview
 
@@ -128,4 +131,41 @@ The output should look something like-
 			Test group 2 called
 			Test group 2 OK
 	mongo-example.js Success!
+```
+
+# Including targets for tests
+
+Now that we can run tests on multiple platforms we still have occasion
+to only need to run tests for specific targets. You can test a list
+of targets when you call harness' push method.  The list of supported
+targets are "node", "mongo" and "browser".  Here's an example of group
+tests for each of these targets-
+
+```JavaScript
+	var path = require("path"),
+		assert = require("assert"),
+		harness = require("../harness");
+	
+	// This are tests targeted at the browser only
+	harness.push({callback: function (test_label) {
+		assert.ok(true, "Browser only");
+		harness.completed(test_label);
+	}, label: "BrowserOnly", targets: ["browser"]});
+	
+	harness.push({callback: function (test_label) {
+		assert.ok(true, "Node only");
+		harness.completed(test_label);
+	}, label: "NodeOnly", targets: ["node"]});
+	
+	harness.push({callback: function (test_label) {
+		assert.ok(true, "Mongo only");
+		harness.completed(test_label);
+	}, label: "MongoOnly", targets: ["mongo"]});
+	
+	harness.push({callback: function (test_label) {
+		assert.ok(true, "Mongo only");
+		harness.completed(test_label);
+	}, label: "Combination", targets: ["node", "mongo", "browser"]});
+	
+	harness.RunIt("Target Demo", 10);
 ```

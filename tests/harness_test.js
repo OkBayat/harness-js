@@ -19,14 +19,6 @@ if (module.filename) {
 	test_name = path.basename(module.filename);
 }
 
-var inMongo = function () {
-	var t = false;
-	try {
-		t = (process === undefined && windows === undefined);
-	} catch (err) {
-	}
-	return t;
-};
 
 var inNode = function () {
 	var t = false;
@@ -46,6 +38,15 @@ var inBrowser = function () {
 	return t;
 };
 
+var inMongo = function () {
+	var t = false;
+	if (inBrowser() === false &&
+			inNode() === false) {
+		t = true;
+	}
+	return t;
+};
+
 console.log("Welcome, we're testing " + test_name);
 console.log("First tests will be completed with out calling RunIt()");
 console.log("\tDoing some pre-RunIt() tests of methods.");
@@ -53,7 +54,7 @@ assert.ok(harness, "Should have a harness object");
 assert.strictEqual(typeof harness.push, "function", "Should have a push method");
 assert.strictEqual(typeof harness.completed, "function", "Should have a a completed method");
 assert.strictEqual(typeof harness.RunIt, "function", "Should have a a RunIt method");
-
+assert.strictEqual(typeof harness.platform, "string", "Should have a platform string");
 assert.strictEqual(harness.counts("tests"), 0, "Should have zero tests defined.");
 assert.strictEqual(harness.counts("running"), 0, "Should have zero tests running");
 

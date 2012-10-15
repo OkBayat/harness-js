@@ -18,20 +18,39 @@ var Harness = function (global) {
 		complete_called = false;
 
 	// Decide what platform we're running on.
-	try {
-		if (process === undefined) {
-			// We're not in node, maybe Mongo or browser?
-			if (window === undefined) {
-				platform = "mongo";
-			} else {
-				platform = "browser";
-			}
-		} else {
-			// We're in Node
-			platform = "node";
+	var inMongo = function () {
+		var t = false;
+		try {
+			t = (process === undefined && windows === undefined);
+		} catch (err) {
 		}
-	} catch (err) {
+		return t;
+	};
+	
+	var inNode = function () {
+		var t = false;
+		try {
+			t = (process !== undefined);
+		} catch (err) {
+		}
+		return t;
+	};
+	
+	var inBrowser = function () {
+		var t = false;
+		try {
+			t = (window !== undefined);
+		} catch (err) {
+		}
+		return t;
+	};
+	
+	if (inNode()) {
+		platform = "node";
+	} else if (inBrowser()) {
 		platform = "browser";
+	} else {
+		platform = "mongo";
 	}
 	
 	// Several methods to make testing
@@ -133,10 +152,17 @@ var Harness = function (global) {
 				if (group_test  &&
 						typeof group_test.callback === "function" &&
 						typeof group_test.label === "string") {
-					console.log("\tStarting " + group_test.label + " ...");
-					running_tests.push(group_test.label);
-					console.log("\t\t" + group_test.label + " called");
-					group_test.callback();
+					if (group_test.targets.length > 0 &&
+						group_test.targets.indexOf(platform) < 0) {
+						console.log("\tSkipping " + group_test.label);
+						skipped_tests.push(group_test.label);
+						console.log("\t\t" + group_test.label + " Skipped, OK");
+					} else {
+						console.log("\tStarting " + group_test.label + " ...");
+						running_tests.push(group_test.label);
+						console.log("\t\t" + group_test.label + " called");
+						group_test.callback(group_test.label);
+					}
 				} else if (group_test === undefined) {
 					if (complete_called === false) {
 						throw "harness.completed() never called by test group(s).";
@@ -163,7 +189,7 @@ var Harness = function (global) {
 		if (test_delay === undefined) {
 			test_delay = 1000;
 		}
-	
+
 		console.log("Starting [" + module_name + "] ...");
 		try {
 			int_id = setInterval(run, test_delay);
@@ -181,6 +207,7 @@ var Harness = function (global) {
 	this.push = push;
 	this.completed = completed;
 	this.RunIt = RunIt;
+	this.platform = platform;
 
 	try {
 		exports.counts = counts;
@@ -188,7 +215,8 @@ var Harness = function (global) {
 		exports.push = push;
 		exports.completed = completed;
 		exports.RunIt = RunIt;
+		exports.platform = platform;
 	} catch (err) {
-		console.log("Running in browser.");
+		console.log("Running in", this.platform);
 	}
 }, harness = new Harness(this);

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Browser example using harness.js</title>
+	</head>
+	<body>
+		<header>
+			<h1>Browser example using harness.js</h1>
+		</header>
+		<section>
+			<p>Check your JavaScript console for results</p>
+			<p>Loading harness.js</p>
+			<script src="../harness.js"></script>
+			<!-- use a browser ship to support the default tests -->
+			<script>
+				// Just some shim code to allow running the unaltered
+				// tests in the browser.
+				var exports = {},
+					// Let's fake NodeJS' require function
+					require = function (name) {
+						switch (name) {
+						case 'path':
+							return {
+								basename: function (file_path) {
+									if (!file_path) {
+										return "";
+									}
+									
+									if (file_path.indexOf("/") >= 0) {
+										return file_path.substr(
+											file_path.lastIndexOf("/"));
+									}
+									return file_path;
+								}
+							};
+						case 'assert': 
+							return {
+								ok: function (expr, msg) {
+									if (expr) {
+										return true;
+									}
+									throw msg;
+								},
+								equal: function (expr1, expr2, msg) {
+									if (expr1 == expr2) {
+										return true;
+									}
+									throw msg;
+								},
+								strictEqual: function (expr1, expr2, msg) {
+									if (expr1 === expr2) {
+										return true;
+									}
+									throw msg;
+								},
+								notEqual: function (expr1, expr2, msg) {
+									if (expr1 != expr2) {
+										return true;
+									}
+									throw msg;
+								},
+								strictNotEqual: function (expr1, expr2, msg) {
+									if (expr1 !== expr2) {
+										return true;
+									}
+									throw msg;
+								}
+							};
+						case '../harness':
+							return harness;
+						}
+						return false;
+					},
+					module = {
+						filename: false 
+					};
+			</script>
+			<p>Loading harness_test.js script used testing for NodeJS and MongoDB Shell</p>
+			<script src="harness_test.js"></script>
+			<p>Check your browser's JavaScript console for the results.</p>
+		<section>
+		<footer>
+			harness can be found at <a href="https://github.com/rsdoiel/harness-js">github.com/rsdoiel/harness-js</a>.
+		</footer>
+	</body>
+</html>

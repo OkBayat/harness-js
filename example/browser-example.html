@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Browser example using harness.js</title>
+	</head>
+	<body>
+		<header>
+			<h1>Browser example using harness.js</h1>
+		</header>
+		<section>
+			<p>Check your JavaScript console for results</p>
+		<script>
+			// Just some shim code to avoid errors
+			var exports = {},
+				require = function () {},
+				assert = {
+					fail: function (msg) {
+						throw msg;
+					},
+					ok: function (expr, msg) { 
+						if (expr == true) {
+							return true;
+						}
+						throw msg;
+					},
+					equal: function (expr1, expr2 , msg) { 
+						if (expr == expr2) {
+							return true;
+						}
+						throw msg;
+					},
+					strictEqual: function (expr1, expr2 , msg) { 
+						if (expr === expr2) {
+							return true;
+						}
+						throw msg;
+					},
+					notEqual: function (expr1, expr2 , msg) { 
+						if (expr != expr2) {
+							return true;
+						}
+						throw msg;
+					},
+					strictNotEqual: function (expr1, expr2 , msg) { 
+						if (expr !== expr2) {
+							return true;
+						}
+						throw msg;
+					}
+				};
+		</script>
+		<script src="../harness.js"></script>
+		<p>Running an example of all tests passing</p>
+		<script>
+			// Here's how we setup some simple tests.
+			harness.push({callback: function (test_label) {
+				assert.ok(true, "We're doing our first test group, should pass");
+				harness.completed(test_label);
+			}, label: "Test 1"});
+			
+
+			harness.push({callback: function (test_label) {
+				assert.ok(true, "We're doing our second test, should pass");
+				harness.completed(test_label);
+			}, label: "Test 1"});
+			// Now run our test groups.
+			harness.RunIt("browser-exmaple.html", 10);
+		</script>		
+		<section>
+		<footer>
+			harness can be found at <a href="https://github.com/rsdoiel/harness-js">github.com/rsdoiel/harness-js</a>.
+		</footer>
+	</body>
+</html>

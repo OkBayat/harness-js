@@ -113,9 +113,16 @@ harness.push({callback: function (test_label) {
 }, label: "IncludeThis()", targets: ["mongo", "node", "browser"]});
 
 harness.push({callback: function (test_label) {
-assert.equal(harness.skipped(), 3,
-	"Should have one skipped test. " +
-	harness.skipped());
-	harness.completed(test_label);
+	assert.equal(harness.skipped(), 3,
+		"Should have one skipped test. " +
+		harness.skipped());
+		harness.completed(test_label);
 }, label: "SkipCount()"});
+
+harness.push({callback: function (test_label, config) {
+	assert.ok(typeof config === "object", "Should have a config object.");
+	assert.equal(config.greets, "hello world", "Should have config.greets of 'hello world'");
+	harness.completed(test_label);
+}, label: "Test passing a config.", config: {greets: "hello world"}});
+
 harness.RunIt(test_name, 10);

@@ -77,6 +77,9 @@ var Harness = function (global) {
 		if (test.targets === undefined) {
 			test.targets = [];
 		}
+		if (test.config === undefined) {
+			test.config = {};
+		}
 		test_groups.push(test);
 	};
 	
@@ -110,7 +113,7 @@ var Harness = function (global) {
 					console.log("\tStarting " + group_test.label + " ...");
 					running_tests.push(group_test.label);
 					console.log("\t\t" + group_test.label + " called");
-					group_test.callback(group_test.label);
+					group_test.callback(group_test.label, group_test.config);
 				}
 			} else if (group_test === undefined) {
 				if (complete_called === false) {
@@ -161,7 +164,7 @@ var Harness = function (global) {
 						console.log("\tStarting " + group_test.label + " ...");
 						running_tests.push(group_test.label);
 						console.log("\t\t" + group_test.label + " called");
-						group_test.callback(group_test.label);
+						group_test.callback(group_test.label, group_test.config);
 					}
 				} else if (group_test === undefined) {
 					if (complete_called === false) {

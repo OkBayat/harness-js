@@ -2,8 +2,8 @@
 harness-js
 ==========
 
-Yet another test organizers except that is work in NodeJS, Mongo's shell and
-you modern web browser.  Being able to run across these three environments 
+Yet another test organizer except that is works in NodeJS, Mongo's shell and
+a modern web browsers.  Being able to run across these three environments 
 without depending on libraries like RequireJS was a major reason I wrote this
 module. Hopefully it is helpful to others.
 
